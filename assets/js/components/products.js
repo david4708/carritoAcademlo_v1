@@ -20,14 +20,14 @@ function products(products){
                     <i class='bx bx-cart-add'></i> 
                 </button> 
                 <span class="product__price" >$${product.price}</span>
-                <span class="product__stock">disponibles:3</span>
-                <h3 class="product_title">${product.name}camiseta de manga corta con cuello redondo</h3>
+                <span class="product__stock">disponibles:${product.quantity}</span>
+                <h3 class="product_title">${product.name}</h3>
 
             </div>
         </article>
             `
               
-        }
+        }   
         productsDOM.innerHTML=htmlProduct
     }
     printProducts()
@@ -35,7 +35,7 @@ function products(products){
     return {
         db,printProducts
     }
-// console.log(products);
+
  
 
 }

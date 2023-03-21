@@ -1,98 +1,75 @@
 
 
-//functions
-
-
 function cart(db,printProducts){
  
   let cart=[] 
 
-//   elementos del DOM
+  //   elementos del DOM
 
 const productsDOM=document.querySelector('.products__container')
-const notifyDOM=Document.querySelector('.notify')
-
-const countDOM=Document.querySelector('.cart__count--item')
-const totalDOM=Document.querySelector('.cart__total--item')
-const checkoutDOM=Document.querySelector('.btn--buy')
-
-
+const notifyDOM=document.querySelector('.notify')
+const cartDOM=document.querySelector('.cart__body')
+const countDOM=document.querySelector('.cart__count--item')
+const totalDOM=document.querySelector('.cart__total--item')
+const checkoutDOM=document.querySelector('.btn--buy')
 
 
+//functions
 
-    
 function printCart(){
-    const cartDOM=Document.querySelector('.cart__body')
+    // const cartDOM=Document.querySelector('.cart__body')
+    let htmlcart=''
 
-let htmlCart=''
+    if(cart.length===0){
+        htmlcart +=` <div class="cart--empty">
+                    <i class='bx bx-cart' ></i>
+                    <p class="cart__empty--text">no hay productos en el carrito</p> </div> `
 
-// console.log('carrito:')
-// console.log(cart)
-// console.log('items:' + showItemsCount())
-// console.log('total:' + showTotal() )
+        notifyDOM.classList.remove('show--notify')
+    }else{
+        for(const item of cart){
+            const product=db.find(p=>p.id===item.id)
+            htmlcart+= ` <article class="article"> 
 
-if(cart.length==0){
+            <div class="article__image">
+                <img src="${product.image}" alt="${product.name}"> 
 
-    let htmlCart=`
-    <div class="cart--empty">
-    <i class='bx bx-cart' ></i>
-    <p class="cart__empty--text">no hay productos en el carrito</p>
-     
-</div>
-
-`
-
-   notifyDOM.classlist.remove('show--notify')
-   
-}else{
-    for(const item of cart){
-        const product=db.find(p=>p.id===item.id)
-       
-        let htmlCart= ` 
-        <article class="article"> 
-
-        <div class="article__image">
-            <img src= "${product.image} " alt="${product.name}">
-
-        </div>
-        <div class="article__content">
-            <h3 class="article__title">${product.name}</h3>
-
-            <span class="article_price">$${product.price}</span>
-            <div class="article__quantity">
-
-                <button type="button" class="article__quantity-btn article--minus" data-id="${item.id}">
-                    <i class='bx bx-minus'></i>   
-                </button>
-
-                <span class=" article__quantity-text">data-id="${item.qty}</span>
-
-                <button type="button" class="article__quantity-btn article--plus" data-id="${item.id}>
-                  
-                    <i class='bx bx-plus'></i>   
-                </button>
             </div>
-            <button type="button" class="article__btn remove-from-cart" data-id="${item.id}>
+            <div class="article__content">
+            <h3 class="article__title">${product.name}</h3>
+                <span class="article_price">$${product.price}</span>
+                <div class="article__quantity">
 
-                <i class='bx bx-trash' ></i>
-            </button>
+            <button type="button" class="article__quantity-btn article--minus" data-id="${item.id}">
+                        <i class='bx bx-minus'></i>   
+                    </button>
 
-        </div>
-    </article>
-        
-        `
+                    <span class=" article__quantity-text">${item.qty}</span>
+
+            <button type="button" class="article__quantity-btn article--plus" data-id="${item.id}">
+                      
+                        <i class='bx bx-plus'></i>   
+                    </button>
+                </div>
+                <button type="button" class="article__btn remove-from-cart" data-id="${item.id}">
+
+                    <i class='bx bx-trash' ></i>
+                </button>
+
+            </div>
+        </article> `
+
+        }
+        notifyDOM.classList.add('show--notify')
     }
-
-    // notifyDOM.classlist.add('show--notify')
-}
-cartDOM.innerHTML=htmlCart
-notifyDOM.innerHTML=showItemsCount()
-countDOM.innerHTML=showItemsCount()
-totalDOM.innerHTML=showTotal()
-
+    cartDOM.innerHTML=htmlcart
+    notifyDOM.innerHTML=showItemsCount()    
+    countDOM.innerHTML=showItemsCount()
+    totalDOM.innerHTML=showTotal() 
 } 
 
 function addToCart(id,qty=1){
+ 
     const itemFinded=cart.find(i=>i.id===id) 
     if (itemFinded){
         itemFinded.qty+=qty     
@@ -103,7 +80,6 @@ function addToCart(id,qty=1){
 
     printCart()
 }
-
 
 function removefromCart(id,qty=1){
 
@@ -116,20 +92,19 @@ if(result>0){
 }else{
     cart=cart.filter(i=>i.id!==id)   
 }
+  
 printCart()
- 
+  
 }
-
-
 function deleteFromCart(id){
     cart=cart.filter(i=>i.id!==id)   
     printCart()
 } 
 
-function showItemsCount ( ){ 
+function showItemsCount (  ){ 
     let suma=0
     for(const item of cart){
-        suma +=item.qty
+        suma +=item.qty 
     }
     return suma
 } 
@@ -149,11 +124,8 @@ function checkout(){
 for(const item of cart){
     const productFinded=db.find(p=>p.id===item.id)
     productFinded.quantity-=item.qty
- 
-  
-
 }
-return 
+
 
   cart=[]
 printCart()
@@ -161,17 +133,17 @@ printProducts()
 
 window.alert('gracias por su compra')
 }
-
+printCart()
 
 //eventos
 productsDOM.addEventListener('click',function(e){
     if(e.target.closest('.add--to--cart')){
         const id=+e.target.closest('.add--to--cart').dataset.id
-        addToCart(id)
+        addToCart(id) 
     }
 })
 
-const cartDOM=('.cart__body')
+// const cartDOM=('.cart__body')
 cartDOM.addEventListener('click',function(e){
 
     if(e.target.closest('.article--minus')){
@@ -190,9 +162,10 @@ cartDOM.addEventListener('click',function(e){
     }
 
 } )
+
 checkoutDOM.addEventListener('click',function(e){
 
-    checkout()
+checkout()
 
 })
 

@@ -12,7 +12,7 @@ import cart from "./components/cart.js";
 /*UI Elements*/
 
 /*ocultar loader*/
-loader() 
+loader()   
 
  /*mostrar showMenu()*/
  showMenu()

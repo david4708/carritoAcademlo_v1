@@ -1,6 +1,7 @@
 function showCart(){
-    const btnCart=document.querySelector('.btn--cart')
+    const btnCart=document.querySelector('.cart__btn')
     const cart=document.querySelector('.cart')
+    
     btnCart.addEventListener('click',function(e){
 
         cart.classList.toggle('show--cart')
@@ -8,8 +9,8 @@ function showCart(){
 
     cart.addEventListener('click',function(e){
    
-    if(e.target.closest('.btn--cart')){
-        this.classList.remove('show--cart')
+    if(e.target.closest('.btn--close')){
+        cart.classList.remove('show--cart')
     
     }
 
